@@ -1,17 +1,27 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- <Index/> -->
+    <!-- <Order/> -->
+    <Cart/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Index from './components/index.vue'
+import Order from './components/order.vue'
+import Cart from "./components/cart.vue"
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Index,
+    Order,
+    Cart
+  },
+  data(){
+    return{
+
+    }
   }
 }
 </script>
@@ -21,8 +31,16 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  /* color: #2c3e50; */
+  background-image: url("./assets/background.jpg");
+  background-repeat: no-repeat;
+  background-size: 220vh;
+  background-attachment: fixed;
+  background-position: 50% 60%;
+  min-height: 100vh;
+  background-color: rgba(37, 37, 37,0.35);
+  background-blend-mode: darken;
 }
+
+
 </style>
