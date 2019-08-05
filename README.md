@@ -1,2 +1,3 @@
 # virtual-waiter
-# virtual-waiter-front
+the front end code for virtual waiter implemented in vue.js
+
