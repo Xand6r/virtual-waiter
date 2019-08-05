@@ -2,13 +2,13 @@
   <div class="body">
     <div class="navigation">
       <div class="title">
-        <h2>Savor tech</h2>
+        <h2 class="restaurant">SAVOUR</h2>
       </div>
       <div class="items">
         <div class="large-screen">
-            <div class="sub-item">Home</div>
-            <div class="sub-item">Order</div>
-            <div class="sub-item">Feedback</div>
+            <!-- <div class="sub-item">Home</div> -->
+            <router-link class="sub-item" to="order">Order</router-link>
+            <div class="sub-item"><a href = "/feedback/feedback.html"> Feedback</a></div>
         </div>
         <div class="small-screen">
           <i class="fa fa-2x fa-bars" @click="dropDown()"></i>
@@ -18,9 +18,10 @@
     
     <div ref="dropdown" class="drop-down hide">
       <div class="dropdown-wrapper">
-        <div class="dropdown-item">home</div>
-        <div class="dropdown-item">order</div>
-        <div class="dropdown-item">feedback</div>
+        <router-link to="/" class="unset dropdown-item">HOME</router-link>
+        <router-link to="/order" class="unset dropdown-item">ORDER</router-link>
+        <a class="dropdown-item" href = "/feedback/feedback.html"> FEEDBACK</a>
+        <!-- <router-link to="/order" class="unset dropdown-item">FEEDBACK</router-link> -->
       </div>
     </div>
 
@@ -28,7 +29,9 @@
       <div class="content-body">
         <span class="greeting"><span class="flash fadeIn" ref="flash">{{flashContent}}</span> food service </span>
           <span class="button zoom-in ">
-            ORDER
+            <router-link class="unset" to="/order">
+              ORDER
+            </router-link>
           </span>
       </div>
     </div>
@@ -45,7 +48,7 @@ export default {
   data(){
     return{
       flashContent:"better",
-      options:["..better","..faster","reliable"],
+      options:["better","faster","reliable"],
       dropped:false,
       initial:true
     }
@@ -83,6 +86,23 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .restaurant{
+    font-family: 'Yellowtail', cursive;
+    font-size: 2.0em;
+  }
+  a{
+    text-decoration: none;
+    color: #fff;
+    padding-right:30px;
+  }
+  router-link{
+    text-transform: none;
+  }
+
+  .body{
+    text-transform: capitalize;
+  }
+
   .navigation{
     display: flex;
     width: 100vw;
@@ -105,8 +125,11 @@ export default {
   }
   
   .sub-item{
-    margin:0 40px;
+    text-decoration: none;
+    color: white;
+    margin:0 20px;
     font-weight: bold;
+    transition-duration: 0.5s;
   }
 
   .content-body{
@@ -124,6 +147,7 @@ export default {
   }
 
   .body{
+    height: 90vh;
     overflow: hidden;
   }
 
@@ -142,8 +166,7 @@ export default {
 
 
   .button{
-    border: green 3px solid;
-    background-color: rgb(247, 176, 23);
+    background-color: rgb(247, 143, 23);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -156,7 +179,7 @@ export default {
 
   .flash{
     display: inline-block;
-    color: rgb(247, 176, 23);
+    color: rgb(247, 143, 23);
     width: 140px;
   }
 
@@ -253,6 +276,8 @@ export default {
     color: white;
     text-align: center;
     text-transform: capitalize;
+    display: flex;
+    flex-direction: column;
   }
 
   .dropdown-item{
@@ -261,6 +286,12 @@ export default {
     box-shadow: 2px 0.3px 5px white,2px 0.3px 5px green;
     font-weight: 500;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgb(236, 235, 235);
+    transition-duration: 0.2s;
+  }
+
+  .dropdown-item:hover{
+    color: white;
   }
 
   .hide{
@@ -286,5 +317,22 @@ export default {
 
   .hide{
     display: none;
+  }
+
+  .sub-item:hover{
+    transform: scale(1.08);
+    transform-origin: center;
+    color: rgb(167, 160, 160);
+  }
+  .unset{
+    text-decoration: none;
+    color: rgb(231, 225, 225);
+    padding-left: 25px;
+  }
+
+  @media (max-width: 500px) {
+    span.greeting{
+      font-size: 1.9em!important;
+    }
   }
 </style>

@@ -1,17 +1,19 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper" >
         <div class="navigation">
             <div class="title">
-                <h3>Lorem, ipsum</h3>
+                <router-link to="/" class="unset"><h3>SAVOUR</h3></router-link>
             </div>
             <div class="nav-items large">
-                <span class="nav-item" :class="{active:current=='food'}" @click="changeCurrent('food')" >Food</span>
-                <span class="nav-item" :class="{active:current=='drinks'}" @click="changeCurrent('drinks')">Drinks</span>
-                <i :class="{fullcart:cart.length>0}" class="scale fa fa-shopping-cart"></i>
+                <span class="nav-item"> <a class="feedback" href="/feedback/feedback.html">Feedback</a></span>
+                <span class="nav-item" :class="{active:current!='food'}" @click="changeCurrent('food')" >Food</span>
+                
+                <span class="nav-item" :class="{active:current!='drinks'}" @click="changeCurrent('drinks')">Drinks</span>
+                <i @click="cartOpen=!cartOpen" :class="{fullcart:cart.length>0,cartanimate:cart.length>0}" class="scale  fa fa-shopping-cart"></i>
                 <i class="incart">{{cart.length}}</i>
             </div>
             <div class="small-screen">
-                <span class="small-screen small-item"><i  :class="{fullcart:cart.length>0}" class="scale fa fa-shopping-cart"></i></span>
+                <span @click="cartOpen=!cartOpen" class="small-screen small-item pointer"><i :class="{fullcart:cart.length>0,cartanimate:cart.length>0}" class="scale fa fa-shopping-cart"></i><i class="number">{{this.cart.length}}</i></span>
                 <span class="small-screen small-item"><i class="fa fa-2x fa-bars dropbutton" @click="changeSlide()"></i></span>
             </div>
 
@@ -20,44 +22,41 @@
             <div class="dropdown-wrapper">
                 <div class="dropdown-item" :class="{active:current=='food'}" @click="changeCurrent('food')">Food</div>
                 <div class="dropdown-item" :class="{active:current=='drinks'}" @click="changeCurrent('drinks')">Drinks</div>
+                <div class="dropdown-item" ><a class="feedback" href="/feedback/feedback.html">Feedback</a></div>
             </div>
         </div>
-        <div class="items food" v-if="current!='food'">
-            <item @pupu="addToCart" :foodInfo="test"/>
-            <item @pupu="addToCart" :foodInfo="test"/>
-            <item @pupu="addToCart" :foodInfo="test"/>
-            <item @pupu="addToCart" :foodInfo="test"/>
-            <item @pupu="addToCart" :foodInfo="test"/>
+        <div class="items food" v-if="current=='food'">
+            <item v-for="(foodItem,i) in foodItems" :key="i" @add="addToCart" :foodInfo="foodItem"/>
         </div>
-        <div class="items drinks" v-if="current!='drinks'">
-            <item @pupu="addToCart" :foodInfo="test"/>
-            <item @pupu="addToCart" :foodInfo="test"/>
-            <item @pupu="addToCart" :foodInfo="test"/>
-            <item @pupu="addToCart" :foodInfo="test"/>
-            <item @pupu="addToCart" :foodInfo="test"/>
-            <item @pupu="addToCart" :foodInfo="test"/>
-            <item @pupu="addToCart" :foodInfo="test"/>
-            <item @pupu="addToCart" :foodInfo="test"/>
+        <div class="items drinks" v-if="current=='drinks'">
+            <item v-for="(foodItem,i) in drinkItems" :key="i" @add="addToCart" :foodInfo="foodItem"/>
         </div>
+        <cart @orderPlaced="emitOrder" :cartItems="cart" @closed="cartOpen=false" @remove="handleRemove" v-if="cartOpen" class="cart"/>
     </div>
 </template>
 
 
 <script>
 import item from "./item.vue"
+import cart from "./cart.vue"
+import io from "socket.io-client"
+import {foodItemsArray} from './edibleItems'
+import {drinkItemsArray} from './edibleItems'
+
 export default {
     data(){
         return{
-            test:{
-                imageLink:require("../assets/menu/friedrice.jpg"),
-                foodName:"fried rice",
-                minPrice:100,
-                increament:50
-            },
+            foodItems:foodItemsArray,
+            drinkItems:drinkItemsArray,
+            socket:null,
             cart:[],
             current:"food",
-            slideOn:false
+            slideOn:false,
+            cartOpen:false,
         }
+    },
+    mounted(){
+        this.socket=io("/");
     },
     methods:{
         addToCart(state){
@@ -68,21 +67,66 @@ export default {
         },
         changeSlide(){
             this.slideOn=!this.slideOn;
+        },
+        handleRemove(index){
+            this.cart=this.cart.filter((item,i)=>i!=index)
+        },
+        emitOrder(seat){
+            this.socket.emit("order",this.cart,seat);
+            this.cart=[];
+            this.cartOpen=false;
         }
     },
     components:{
-        item
+        item,
+        cart
     }
 }
 </script>
 
 <style scoped>
+.feedback{
+    text-decoration:none;
+    color: #fff;
+}
+
+h3{
+    color:rgb(236, 229, 229);
+    transition-duration: 0.5s;
+}
+
+h3:hover{
+    color:white;
+}
+
 .wrapper{
-    position: relative;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.479), rgba(0, 0, 0, 0.445)) url("../assets/background.jpg");
+  /* background-repeat: no-repeat; */
+  background-size: 220vh;
+  background-attachment:fixed;
+  background-position: 50% 60%;
+  /* min-height: 100vh; */
+  background-color: rgba(37, 37, 37,0.35);
+  background-blend-mode: darken;
+}
+
+.nav-item{
+    transition-duration: 1s;
+}
+
+.nav-item:hover{
+    color: white;
+}
+
+.dropdown-item{
+    transition-duration: 1s;
+}
+
+.dropdown-item:hover{
+    color: white;
 }
 
 .items{
-    height:100vh;
     display:flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -112,7 +156,7 @@ export default {
     text-align: center;
     border-radius: 4px;
     height: 30px;
-    width: 60px;
+    min-width: 60px;
     padding-top: 10px;
     padding-left:8px;
     padding-right: 8px; 
@@ -167,6 +211,10 @@ export default {
     font-weight: 600;
 }
 
+.number{
+    padding: 0 10px;
+}
+
 @keyframes slidedown {
     from{
         transform: scale3d(1,0,1)
@@ -202,6 +250,46 @@ export default {
     .small-screen{
         display: none;
     }
+}
+@keyframes identifier {
+    
+}
+.cart{
+    position: fixed;
+    top: 0;
+}
+
+
+
+.unset{
+    text-decoration: none;
+    color: white;
+}
+
+@keyframes cartani {
+    0%{
+        transform: scale(1.2) rotate(0deg)
+    }
+    25%{
+        transform: scale(2) rotate(30deg);
+    }
+    50%{
+        transform: scale(2) rotate(-30deg);
+    }
+    75%{
+        transform: scale(2) rotate(30deg);
+    }
+    100%{
+        transform: scale(1.2) rotate(0deg)
+    }
+}
+
+.cartanimate{
+    animation: cartani 2s ease-in  infinite forwards;
+}
+
+.pointer{
+    cursor: pointer;
 }
 
 </style>

@@ -52,7 +52,7 @@ export default {
             }
         },
         emitAddToCart(){
-            this.$emit("pupu",this.state);
+            this.$emit("add",this.state);
         }
     }
 }
@@ -63,13 +63,14 @@ export default {
 
 img.custom{
     height: 200px;
-    width: 270px;
+    width: 320px;
 }
 .menu-item{
     background-color: white;
-    width: 270px;
+    width: 320px;
     box-shadow: 3px 5px 10px #837c7c;
     border-radius: 5px;
+    padding: 5px;
 }
 
 .image{

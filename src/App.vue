@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <!-- <Index/> -->
-    <!-- <Order/> -->
-    <Cart/>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -30,17 +28,16 @@ export default {
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  background-blend-mode:darken;
   -moz-osx-font-smoothing: grayscale;
-  /* color: #2c3e50; */
-  background-image: url("./assets/background.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.726),rgba(0, 0, 0, 0.623)) ,url("./assets/background.jpg");
   background-repeat: no-repeat;
   background-size: 220vh;
-  background-attachment: fixed;
+  background-attachment:fixed;
   background-position: 50% 60%;
   min-height: 100vh;
-  background-color: rgba(37, 37, 37,0.35);
-  background-blend-mode: darken;
-}
 
+
+}
 
 </style>
