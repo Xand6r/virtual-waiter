@@ -2,10 +2,10 @@
     <div class="wrapper" >
         <div class="navigation">
             <div class="title">
-                <router-link to="/" class="unset"><h3>SAVOUR</h3></router-link>
+                <router-link to="/" class="unset"><h3 class="restaurant">SAVOUR</h3></router-link>
             </div>
             <div class="nav-items large">
-                <span class="nav-item"> <a class="feedback" href="/feedback/feedback.html">Feedback</a></span>
+                <!-- <span class="nav-item"> <a class="feedback" href="/feedback/feedback.html">Feedback</a></span> -->
                 <span class="nav-item" :class="{active:current!='food'}" @click="changeCurrent('food')" >Food</span>
                 
                 <span class="nav-item" :class="{active:current!='drinks'}" @click="changeCurrent('drinks')">Drinks</span>
@@ -22,14 +22,14 @@
             <div class="dropdown-wrapper">
                 <div class="dropdown-item" :class="{active:current=='food'}" @click="changeCurrent('food')">Food</div>
                 <div class="dropdown-item" :class="{active:current=='drinks'}" @click="changeCurrent('drinks')">Drinks</div>
-                <div class="dropdown-item" ><a class="feedback" href="/feedback/feedback.html">Feedback</a></div>
+                <!-- <div class="dropdown-item" ><a class="feedback" href="/feedback/feedback.html">Feedback</a></div> -->
             </div>
         </div>
         <div class="items food" v-if="current=='food'">
-            <item v-for="(foodItem,i) in foodItems" :key="i" @add="addToCart" :foodInfo="foodItem"/>
+            <item class="fadeIn" v-for="(foodItem,i) in foodItems" :key="i" @add="addToCart" :foodInfo="foodItem"/>
         </div>
         <div class="items drinks" v-if="current=='drinks'">
-            <item v-for="(foodItem,i) in drinkItems" :key="i" @add="addToCart" :foodInfo="foodItem"/>
+            <item class="fadeIn" v-for="(foodItem,i) in drinkItems" :key="i" @add="addToCart" :foodInfo="foodItem"/>
         </div>
         <cart @orderPlaced="emitOrder" :cartItems="cart" @closed="cartOpen=false" @remove="handleRemove" v-if="cartOpen" class="cart"/>
     </div>
@@ -290,6 +290,24 @@ h3:hover{
 
 .pointer{
     cursor: pointer;
+}
+
+.restaurant{
+    font-family: 'Yellowtail', cursive;
+    font-size: 2.0em;
+}
+
+.fadeIn{
+    animation: fadein 1s ease-in;
+}
+
+@keyframes fadein {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
 }
 
 </style>

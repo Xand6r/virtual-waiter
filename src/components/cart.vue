@@ -41,8 +41,14 @@ export default {
     },
     methods:{
         order(){
-            if(this.tableNumber){
+            if(this.cartItems.length<1){
+                alert("please put an item in the cart");
+                return;
+            }
+            
+            if(this.tableNumber && prompt("Are you sure to place order (y/n)")=="y" ){
                 this.$emit("orderPlaced",this.tableNumber);
+                alert("order placed, wait a minute your food will be with you shortly. thank you for eating with us")
                 return;
             }
             alert("please enter a table number");

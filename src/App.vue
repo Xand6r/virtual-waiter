@@ -5,16 +5,10 @@
 </template>
 
 <script>
-import Index from './components/index.vue'
-import Order from './components/order.vue'
-import Cart from "./components/cart.vue"
 
 export default {
   name: 'app',
   components: {
-    Index,
-    Order,
-    Cart
   },
   data(){
     return{

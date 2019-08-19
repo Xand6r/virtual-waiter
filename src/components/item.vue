@@ -68,7 +68,7 @@ img.custom{
 .menu-item{
     background-color: white;
     width: 320px;
-    box-shadow: 3px 5px 10px #837c7c;
+    box-shadow: 1px 3px 4px #837c7c;
     border-radius: 5px;
     padding: 5px;
 }

@@ -7,8 +7,9 @@
       <div class="items">
         <div class="large-screen">
             <!-- <div class="sub-item">Home</div> -->
-            <router-link class="sub-item" to="order">Order</router-link>
-            <div class="sub-item"><a href = "/feedback/feedback.html"> Feedback</a></div>
+            <router-link class="sub-item" to="order">order</router-link>
+            <!-- <div class="sub-item"><a href = "/feedback/feedback.html"> feedback</a></div> -->
+            <div class="sub-item"><a href = "#"> feedback</a></div>
         </div>
         <div class="small-screen">
           <i class="fa fa-2x fa-bars" @click="dropDown()"></i>
